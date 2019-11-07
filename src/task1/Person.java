@@ -6,33 +6,46 @@ public class Person {
     private int age;
     private String pesel;
 
-    public Person(String firstName, String lastName, int age, String pesel) throws NameUndefinedException, IncorrectAgeException {
-        CheckNameUndefinedException(firstName, lastName);
-        CheckIncorrectAgeException(age);
+    public Person(String firstName, String lastName, int age, String pesel)
+            throws NameUndefinedException, IncorrectAgeException, FirstNameUndefinedException, LastNameUndefinedException {
+        checkNameUndefinedException(firstName, lastName);
+        checkIncorrectAgeException(age);
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.pesel = pesel;
     }
 
-    private void CheckIncorrectAgeException(int age) throws IncorrectAgeException {
+    private void checkIncorrectAgeException(int age) throws IncorrectAgeException {
         if(age < 1){
             throw new IncorrectAgeException();
         }
     }
 
-    private void CheckNameUndefinedException(String firstName, String lastName) throws NameUndefinedException {
+    private void checkNameUndefinedException(String firstName, String lastName) throws NameUndefinedException {
         if(firstName == null || lastName == null || firstName.length() <= 2 || lastName.length() <=2) {
             throw new NameUndefinedException();
         }
+    }
 
+    private void checkFirstNameUndefinedException(String firstName) throws FirstNameUndefinedException {
+        if(firstName == null || firstName.length() <= 2) {
+            throw new FirstNameUndefinedException();
+        }
+    }
+
+    private void checkLastNameUndefinedException(String lastName) throws LastNameUndefinedException {
+        if(lastName == null || lastName.length() <=2) {
+            throw new LastNameUndefinedException();
+        }
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName) throws FirstNameUndefinedException {
+        checkFirstNameUndefinedException(firstName);
         this.firstName = firstName;
     }
 
@@ -40,7 +53,8 @@ public class Person {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName) throws LastNameUndefinedException {
+        checkLastNameUndefinedException(lastName);
         this.lastName = lastName;
     }
 
@@ -48,7 +62,8 @@ public class Person {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(int age) throws IncorrectAgeException {
+        checkIncorrectAgeException(age);
         this.age = age;
     }
 
@@ -58,28 +73,6 @@ public class Person {
 
     public void setPesel(String pesel) {
         this.pesel = pesel;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Person person = (Person) o;
-
-        if (age != person.age) return false;
-        if (firstName != null ? !firstName.equals(person.firstName) : person.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(person.lastName) : person.lastName != null) return false;
-        return pesel != null ? pesel.equals(person.pesel) : person.pesel == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + age;
-        result = 31 * result + (pesel != null ? pesel.hashCode() : 0);
-        return result;
     }
 
     @Override
