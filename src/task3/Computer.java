@@ -34,4 +34,13 @@ public class Computer {
     public void setRam(RAM ram) {
         this.ram = ram;
     }
+
+    @Override
+    public String toString() {
+        return "Computer{" +
+                "procesor=" + procesor +
+                ", hardDrive=" + hardDrive +
+                ", ram=" + ram +
+                '}';
+    }
 }
